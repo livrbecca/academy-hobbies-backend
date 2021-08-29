@@ -38,6 +38,7 @@ app.get("/scholars", async (req, res) => {
     res.json(allScholars.rows);
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
   }
 });
 
@@ -56,6 +57,7 @@ app.post("/scholars", async (req, res) => {
     res.json(newScholar.rows);
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
   }
 });
 
@@ -69,6 +71,7 @@ app.get("/scholars/:podcolor", async (req, res) => {
     res.json(podGroup.rows);
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
   }
 });
 
@@ -80,6 +83,7 @@ app.get("/scholars/alphabetically", async (req, res) => {
     res.json(scholarsA_Z.rows);
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
   }
 });
 
