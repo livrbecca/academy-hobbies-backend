@@ -2,7 +2,8 @@
 
 
 ## Sever deployment on Heroku
-Link: 
+- Heroku link: https://whispering-atoll-74281.herokuapp.com/scholars 
+- To view full project visit the repository [Academy-Hobbies-Fullstack](https://github.com/livrbecca/Academy-Hobbies-Fullstack) or view it on Netlify: 
 
 ## To Start (if not using Heroku link)
 - Git clone
