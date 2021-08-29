@@ -24,7 +24,7 @@
 - Postman
 - Express
 - Cors
-- Pool
+- Client
 - Beekeeper Studios
 
 
