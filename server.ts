@@ -11,8 +11,8 @@ config(); //Read .env file lines as though they were env vars.
 //For the ssl property of the DB connection config, use a value of...
 // false - when connecting to a local DB
 // { rejectUnauthorized: false } - when connecting to a heroku DB
-const herokuSSLSetting = { rejectUnauthorized: false }
-const sslSetting = process.env.LOCAL ? false : herokuSSLSetting
+const herokuSSLSetting = { rejectUnauthorized: false };
+const sslSetting = process.env.LOCAL ? false : herokuSSLSetting;
 const dbConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: sslSetting,
@@ -21,21 +21,72 @@ const dbConfig = {
 const app = express();
 
 app.use(express.json()); //add body parser to each following route handler
-app.use(cors()) //add CORS support to each following route handler
+app.use(cors()); //add CORS support to each following route handler
 
-const client = new Client(dbConfig);
+const client = new Client({
+  user: "academy",
+  password: "",
+  host: "localhost",
+  port: 5432,
+  database: "academy-hobbies",
+});
 client.connect();
 
-app.get("/", async (req, res) => {
-  const dbres = await client.query('select * from categories');
-  res.json(dbres.rows);
+app.get("/scholars", async (req, res) => {
+  try {
+    const allScholars = await client.query("SELECT * from scholars");
+    res.json(allScholars.rows);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
+app.post("/scholars", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const { image_url } = req.body;
+    const { pod } = req.body;
+    const { notes } = req.body;
+
+    const newScholar = await client.query(
+      "INSERT INTO scholars (name, image_url, pod, notes) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, image_url, pod, notes]
+    );
+
+    res.json(newScholar.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/scholars/:podcolor", async (req, res) => {
+  try {
+    const { podcolor } = req.params;
+    const podGroup = await client.query(
+      "SELECT * from scholars WHERE UPPER(pod) LIKE UPPER($1)",
+      [podcolor]
+    );
+    res.json(podGroup.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/scholars/alphabetically", async (req, res) => {
+  try {
+    const scholarsA_Z = await client.query(
+      "SELECT * from scholars ORDER BY name ASC"
+    );
+    res.json(scholarsA_Z.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 //Start the server on the given port
 const port = process.env.PORT;
 if (!port) {
-  throw 'Missing PORT environment variable.  Set it in .env file.';
+  throw "Missing PORT environment variable.  Set it in .env file.";
 }
 app.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);
