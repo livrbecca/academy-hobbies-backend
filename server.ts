@@ -92,6 +92,6 @@ const port = process.env.PORT;
 if (!port) {
   throw "Missing PORT environment variable.  Set it in .env file.";
 }
-app.listen(port, () => {
+app.listen(port || 5000, () => {
   console.log(`Server is up and running on port ${port}`);
 });
