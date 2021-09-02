@@ -23,13 +23,7 @@ const app = express();
 app.use(express.json()); //add body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 
-const client = new Client({
-  user: "academy",
-  password: "",
-  host: "localhost",
-  port: 5432,
-  database: "academy-hobbies",
-});
+const client = new Client(dbConfig);
 client.connect();
 
 app.get("/scholars", async (req, res) => {
