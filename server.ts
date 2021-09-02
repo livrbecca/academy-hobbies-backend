@@ -44,7 +44,7 @@ app.post("/scholars", async (req, res) => {
     const { notes } = req.body;
 
     const newScholar = await client.query(
-      "INSERT INTO scholars (name, image_url, pod, notes) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO scholars2 (name, image_url, pod, notes) VALUES ($1, $2, $3, $4) RETURNING *",
       [name, image_url, pod, notes]
     );
 
