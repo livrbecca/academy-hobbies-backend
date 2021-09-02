@@ -28,7 +28,7 @@ client.connect();
 
 app.get("/scholars", async (req, res) => {
   try {
-    const allScholars = await client.query("SELECT * from scholars");
+    const allScholars = await client.query("SELECT * from scholars2");
     res.json(allScholars.rows);
   } catch (error) {
     console.log(error);
@@ -44,7 +44,7 @@ app.post("/scholars", async (req, res) => {
     const { notes } = req.body;
 
     const newScholar = await client.query(
-      "INSERT INTO scholars2 (name, image_url, pod, notes) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO scholars2(name, image_url, pod, notes) VALUES ($1, $2, $3, $4) RETURNING *",
       [name, image_url, pod, notes]
     );
 
@@ -59,7 +59,7 @@ app.get("/scholars/:podcolor", async (req, res) => {
   try {
     const { podcolor } = req.params;
     const podGroup = await client.query(
-      "SELECT * from scholars WHERE UPPER(pod) LIKE UPPER($1)",
+      "SELECT * from scholars2 WHERE UPPER(pod) LIKE UPPER($1)",
       [podcolor]
     );
     res.json(podGroup.rows);
@@ -72,7 +72,7 @@ app.get("/scholars/:podcolor", async (req, res) => {
 app.get("/scholars/alphabetically", async (req, res) => {
   try {
     const scholarsA_Z = await client.query(
-      "SELECT * from scholars ORDER BY name ASC"
+      "SELECT * from scholars2 ORDER BY name ASC"
     );
     res.json(scholarsA_Z.rows);
   } catch (error) {
