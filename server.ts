@@ -35,7 +35,7 @@ app.get("/scholars", async (req, res) => {
     res.status(400).send(error);
   }
 });
-
+// comment
 app.post("/scholars", async (req, res) => {
   try {
     const { name } = req.body;
